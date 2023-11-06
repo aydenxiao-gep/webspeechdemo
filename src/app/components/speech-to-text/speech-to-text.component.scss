@@ -1,0 +1,61 @@
+.main {
+    position: fixed;
+    display: flex;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    flex-direction: column;
+}
+.header {
+    display: flex;
+    height: 45px;
+    background-color: black;
+    color: white;
+    font-size: 13px;
+}
+.footer {
+    display: flex;
+    background-color: antiquewhite;
+    height: 30px;
+    bottom: 0px;
+    position: absolute;
+    width: 100%;
+}
+.config-section {
+    display: flex;
+    background-color: aliceblue;
+}
+.main-section {
+    display: flex;
+    position: absolute;
+    top: 145px;
+    bottom: 30px;
+    background-color: aqua;
+    width: 100%;
+}
+.input-pane {
+    display: flex;
+    flex: 30%;
+    background-color: bisque;
+    flex-direction: column;
+}
+.output-pane {
+    display: flex;
+    flex: 70%;
+    background-color: rgb(197, 192, 186);
+    flex-direction: column;
+}
+.speech-pane {
+    display: flex;
+    bottom: 0;
+    height: 45px;
+    background-color: #deb887;
+    width: 100%;
+    margin-top: auto;
+}
+.transcription-pane {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
