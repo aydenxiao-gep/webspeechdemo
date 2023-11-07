@@ -6,56 +6,94 @@
     right: 0px;
     bottom: 0px;
     flex-direction: column;
+    justify-content: space-between;
+    background-color: rgb(239, 245, 249);
 }
 .header {
     display: flex;
-    height: 45px;
+    height: 40px;
     background-color: black;
-    color: white;
-    font-size: 13px;
+    color: white; 
+}
+.title {
+    margin: auto;
+    font-size: 15px;
 }
 .footer {
-    display: flex;
-    background-color: antiquewhite;
-    height: 30px;
-    bottom: 0px;
-    position: absolute;
-    width: 100%;
+    padding: 5px;
+    background-color: #2b2839;
+    color: #fff;
 }
 .config-section {
     display: flex;
     background-color: aliceblue;
+    flex-direction: column;
+}
+.config-section-main {
+    display: flex;
+    padding: 5px;
 }
 .main-section {
     display: flex;
-    position: absolute;
-    top: 145px;
-    bottom: 30px;
-    background-color: aqua;
     width: 100%;
+    flex-grow: 1;
 }
 .input-pane {
     display: flex;
     flex: 30%;
-    background-color: bisque;
     flex-direction: column;
+    justify-content: space-between;
 }
 .output-pane {
     display: flex;
     flex: 70%;
-    background-color: rgb(197, 192, 186);
+    background-color: #e7e7e7;
     flex-direction: column;
 }
 .speech-pane {
     display: flex;
-    bottom: 0;
     height: 45px;
-    background-color: #deb887;
+    background-color: #000000;
     width: 100%;
-    margin-top: auto;
+    color: #ff0072;
+    font-weight: 600;
+    cursor: pointer;
 }
-.transcription-pane {
+.transcript-pane {
     overflow: auto;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+    height: 100px;
+}
+.transcript-header {
+    padding: 5px;
+    background-color: #ff0062;
+    color: white;
+}
+.transcript-chip {
+    padding: 5px;
+    background-color: #a5eba5;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-top: 10px;
+    border: 1px solid #d7d7d7;
+    width: fit-content;
+    max-width: 70%;
+}
+.microphone-btn-container{
+    margin: auto;
+}
+.config-section-title {
+    padding: 5px;
+    background-color: #4633a4;
+    color: #fff;
+}
+.output-pane-title {
+    padding: 5px;
+    background-color: #140dda;
+    color: #fff;
+}
+.flex-row {
+    display: flex;
 }

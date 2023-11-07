@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Langs, WebApeechConfig } from 'src/app/constants/web-speech-api.config';
 
 @Component({
   selector: 'speech-to-text',
@@ -6,15 +7,27 @@ import { Component } from '@angular/core';
   styleUrls: ['./speech-to-text.component.scss']
 })
 export class SpeechToTextComponent {
+  @ViewChild('transcript', { static: true }) transcriptElRef!: ElementRef<any>;
   recognition = new window.webkitSpeechRecognition() // 实例化语音识别对象
   record = false
   btnText: string = 'Press & hold to talk';
   transcript: string = '';
-  constructor() { }
+  apiConfig: Object = {
+    lang: "af-ZA",
+    interimResults: false,
+    maxAlternatives: 1,
+    continuous: true
+  }
+  langList: any[][] = Langs;
+  dialects: any[] = [];
+  showDialects: boolean = false;
+  selectedLang: string = "af-ZA";
+
+  constructor(private renderer: Renderer2) { }
 
   ngOnInit(): void {
     this.recognition.continuous = true;
-    this.recognition.lang = 'en-US';
+    this.updateApiConfig();
     this.recognition.onend = this.onRecognitionEnd.bind(this);
     this.recognition.onerror = this.onRecognitionError.bind(this);
     this.recognition.onresult = this.onRecognitionResult.bind(this);
@@ -22,20 +35,21 @@ export class SpeechToTextComponent {
 
   onMouseDown() {
     this.record = true;
+    this.recognition.lang = this.selectedLang;
     this.recognition.start();
     console.log('Start recording');
     this.btnText = 'Listening...';
   }
 
   onMouseUp() {
-    this.btnText = 'Press & hold to talk';
+    this.btnText = 'Press & hold to start';
     this.record = false;
     this.recognition.stop();
   }
 
   onRecognitionEnd() {
     console.log('Stop recording');
-    this.btnText = 'Start';
+    this.btnText = 'Press & hold to start';
     this.record = false;
   }
 
@@ -50,10 +64,18 @@ export class SpeechToTextComponent {
       result += event.results[i][0].transcript;
     }
     console.log(result);
-    const transcript = document.getElementById('transcription');
-    const p = document.createElement('p');
-    p.textContent = result;
-    transcript?.appendChild(p); 
+
+    const div = this.renderer.createElement('div');
+    const text = this.renderer.createText(result);
+
+    this.renderer.addClass(div, 'transcript-chip');
+    this.renderer.appendChild(div, text);
+    this.renderer.appendChild(this.transcriptElRef.nativeElement, div);
+    // const transcript = document.getElementById('transcript');
+    // const p = document.createElement('div');
+    // p.setAttribute('class', 'transcript-chip');
+    // p.textContent = result;
+    // transcript?.appendChild(p);
     // this.requestOpenAI(result).then((res) => {
     //   const p = document.createElement('p');
     //   p.textContent = res;
@@ -128,4 +150,27 @@ export class SpeechToTextComponent {
   //     }
   //   )
   // }
+
+  onLangChange(event: any) {
+    console.log(event.target.value);
+    this.dialects = this.langList[event.target.value];
+    this.showDialects = this.dialects.length > 2;
+    this.selectedLang = this.dialects[1][0];
+    if(this.dialects.length > 2) this.dialects = this.dialects.filter((e, index) => index > 0);
+    else this.updateApiConfig();
+    console.log(this.dialects, this.selectedLang);
+  }
+
+  onDialectChange(event: any) {
+    console.log(event.target.value);
+    this.selectedLang = event.target.value;
+    this.updateApiConfig();
+  }
+
+  updateApiConfig() {
+    Object.assign(this.recognition, this.apiConfig, {
+      lang: this.selectedLang
+    });
+    console.log(this.recognition.lang);
+  }
 }
